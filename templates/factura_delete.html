@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Eliminar factura</h1>
+    <form action="" method="post">{% csrf_token %}
+        <p>¿Seguro que quieres eliminar la factura "{{ factura.numero_factura }}"?</p>
+        <button class="btn btn-danger ml-2" type="submit">Confirmar</button>
+    </form>
+{% endblock content %}

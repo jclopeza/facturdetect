@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Factur Detect App</h1>
+    <p class="lead">Identificación de datos para todo tipo de facturas!</p>
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{% url 'factura_list' %}" role="button">Ver todas las facturas</a>
+    </p>
+</div>
+{% endblock content %}

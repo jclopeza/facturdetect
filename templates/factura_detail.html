@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="factura-entry">
+        <h2>Número de factura: {{ object.numero_factura }}</h2>
+        <p>Periodo de facturación: {{ object.periodo_de_facturacion }}</p>
+        <p>Fecha de emisión: {{ object.fecha_de_emision }}</p>
+        <p>Contrato: {{ object.contrato }}</p>
+        <p>Inicio de contrato: {{ object.inicio_contrato }}</p>
+        <p>Fin de contrato: {{ object.fin_contrato }}</p>
+    </div>
+    <p><a href="{% url 'factura_edit' factura.pk %}">Editar</a> |
+    <a href="{% url 'factura_delete' factura.pk %}">Eliminar</a></p>
+    <p>Volver a <a href="{% url 'factura_list' %}">todas las facturas</a>.</p>
+{% endblock content %}
