@@ -9,7 +9,7 @@ from datetime import datetime
 
 from .forms import UploadFileForm
 from .models import Factura
-from aws.functions import upload_file_to_s3
+from aws.functions import upload_file_to_s3, detect_text
 
 class FacturaListView(LoginRequiredMixin, ListView):
     model = Factura
@@ -57,13 +57,15 @@ def handle_factura_pdf_uploaded(file):
         image.save(img_name, 'JPEG')
         # Ahora subimos la imagen a S3
         upload_file_to_s3(img_name, 'facturdetect-collection', object_name=img_name_s3)
+    return current_time_str, len(images)
 
 def factura_pdf_upload(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            handle_factura_pdf_uploaded(request.FILES['file'])
-            # detect_text('uploaded_image.jpg', 'photos-collection')
+            img_prefix, img_num = handle_factura_pdf_uploaded(request.FILES['file'])
+            print(f"Prefio imagenes = {img_prefix}, Total de imagenes = {img_num}")
+            detect_text(img_prefix, img_num, 'facturdetect-collection')
             return HttpResponseRedirect('/success/url/')
     else:
         form = UploadFileForm()
