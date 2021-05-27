@@ -140,10 +140,30 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+# En STATIC_ROOT quedarán los ficheros estáticos cuando se ejecute COLLECTSTATIC
+# Este fichero es la mayor diferencia entre el entorno de desarrollo
+# y el entorno de producción
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+# Estos ficheros estáticos se podrán servir por:
+# - el mismo servidor
+# - un servidor separado
+# - un CDN
+# En STATICFILES_STORAGE configuramos quién servirá los ficheros estáticos
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# El prefijo que tendrá la URL para servir nuestro contenidos estáticos
+STATIC_URL = '/static/'
+
+# Donde buscar los ficheros statics (css, js, images, ...)
+# Directorio COMUN a todas las aplicaciones.
+# Para las aplicaciones funciona de forma distinta
+# Por defecto, el contenido que pongamos bajo 'static' dentro de cada
+# aplicación, estará disponible si hacemos (por ejemplo):
+# {% load static %}
+# <link href="{% static 'css/about.css' %}" rel="stylesheet">
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -152,7 +172,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
