@@ -143,6 +143,8 @@ USE_TZ = True
 # En STATIC_ROOT quedarán los ficheros estáticos cuando se ejecute COLLECTSTATIC
 # Este fichero es la mayor diferencia entre el entorno de desarrollo
 # y el entorno de producción
+# Este fichero no se crea automáticamente en HEROKU
+# Debe ser parte del codigo fuente del proyecto
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Estos ficheros estáticos se podrán servir por:
