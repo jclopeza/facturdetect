@@ -50,17 +50,13 @@ class FacturaCreateView(LoginRequiredMixin, CreateView):
 
 def handle_factura_pdf_uploaded(file):
     current_time_str = datetime.now().strftime("%Y%m%d-%H%M%S.%f")
-    print("------- Convertimos PDF a Imagen")
     images = convert_from_bytes(file.read())
-    print("------- Imagen convertida")
     for idx, image in enumerate(images, start=1):
         img_name_s3 = f'{current_time_str}-{idx}.jpg'
         img_name = f'media/{img_name_s3}'
-        print("------- Guardando imagen")
         image.save(img_name, 'JPEG')
-        print("------- Imagen guardada")
         # Ahora subimos la imagen a S3
-        # upload_file_to_s3(img_name, 'facturdetect-collection', object_name=img_name_s3)
+        upload_file_to_s3(img_name, 'facturdetect-collection', object_name=img_name_s3)
 
 def factura_pdf_upload(request):
     if request.method == 'POST':
