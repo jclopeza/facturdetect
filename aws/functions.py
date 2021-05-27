@@ -46,13 +46,16 @@ def get_text(text_found, dict_validator):
 
 
 def detect_text(img_prefix, img_num, bucket):
+    print("Vamos a iniciar la conexión con el servicio Rekognition")
     rekognition_client = boto3.client('rekognition',
         aws_access_key_id=env('AWS_ACCESS_KEY'),
         aws_secret_access_key=env('AWS_SECRET_KEY')
     )
     # Vamos a analizar tan solo la primera imagen
     photo = f'{img_prefix}-1.jpg'
+    print(f"Nombre de la foto a tratar: {photo}")
     response = rekognition_client.detect_text(Image={'S3Object': {'Bucket':bucket, 'Name':photo}})
+    print("Respuesta obtenida de Rekognition")
     textDetections = response['TextDetections']
     # Vamos a crear y devolver un diccionario con el número de factura identificado
     invoice_number_found = False
