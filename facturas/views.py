@@ -56,7 +56,7 @@ def handle_factura_pdf_uploaded(file):
         img_name = f'media/{img_name_s3}'
         image.save(img_name, 'JPEG')
         # Ahora subimos la imagen a S3
-        upload_file_to_s3(img_name, 'facturdetect-collection', object_name=img_name_s3)
+        # upload_file_to_s3(img_name, 'facturdetect-collection', object_name=img_name_s3)
 
 def factura_pdf_upload(request):
     if request.method == 'POST':
