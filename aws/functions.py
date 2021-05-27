@@ -49,7 +49,8 @@ def detect_text(img_prefix, img_num, bucket):
     print("Vamos a iniciar la conexión con el servicio Rekognition")
     rekognition_client = boto3.client('rekognition',
         aws_access_key_id=env('AWS_ACCESS_KEY'),
-        aws_secret_access_key=env('AWS_SECRET_KEY')
+        aws_secret_access_key=env('AWS_SECRET_KEY'),
+        region_name=env('AWS_REGION')
     )
     # Vamos a analizar tan solo la primera imagen
     photo = f'{img_prefix}-1.jpg'
