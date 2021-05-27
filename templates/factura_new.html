@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1>Nueva factura</h1>
-    <form action="" method="post">{% csrf_token %}
+    <form action="/facturas/new/" method="post">{% csrf_token %}
         {{ form|crispy }}
         <button class="btn btn-success ml-2" type="submit">Guardar</button>
     </form>

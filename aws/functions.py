@@ -68,3 +68,11 @@ def detect_text(img_prefix, img_num, bucket):
             if invoice_p is not None:
                 print("Invoice period: %s" % invoice_p)
                 invoice_period_found = True
+    values_found = {'numero_factura': invoice_n,
+                    'periodo_de_facturacion': invoice_p,
+                    'fecha_de_emision': "13-5-2018",
+                    'contrato': "23765540",
+                    'inicio_contrato': "1-4-2015",
+                    'fin_contrato': "4-7-2025"
+                    }
+    return values_found
