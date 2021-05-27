@@ -76,8 +76,9 @@ def factura_pdf_upload(request):
             img_prefix, img_num = handle_factura_pdf_uploaded(request.FILES['file'])
             print(f"Prefijo imagenes = {img_prefix}, Total de imagenes = {img_num}")
             values_found = detect_text(img_prefix, img_num, 'facturdetect-collection')
-            #print(values_found)
+            print(values_found)
             factura_form = FacturaForm(initial=values_found)
+            print("Formulario creado")
             return render(request, 'factura_new.html', {'form': factura_form})
     else:
         form = UploadFileForm()
