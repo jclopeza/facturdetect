@@ -55,6 +55,12 @@ def detect_text(img_prefix, img_num, bucket):
     photo = f'{img_prefix}-1.jpg'
     response = rekognition_client.detect_text(Image={'S3Object': {'Bucket':bucket, 'Name':photo}})
     textDetections = response['TextDetections']
+    print("Escribiendo fichero a texto")
+    print(type(textDetections))
+    f1 = open("/tmp/file.txt", "w")
+    f1.write(str(textDetections))
+    f1.close()
+    print("Fichero escrito")
     # Vamos a crear y devolver un diccionario con el número de factura identificado
     invoice_number_found = False
     invoice_period_found = False
