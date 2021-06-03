@@ -64,6 +64,11 @@ companies = [
             "words_to_find": ["-", "kWh", "€/kWh"],
             "pos_decimal_value": 1,
         },
+        "equipment_rental": {
+            "n_page": 1,
+            "words_to_find": ["Alquiler", "equipos", "1,65"],
+            "pos_decimal_value": 0,
+        },
     },
     {
         "code": "hol",
@@ -93,6 +98,11 @@ companies = [
             "words_to_find": ["Energía", "(P1)", "kWh"],
             "pos_decimal_value": 1,
         },
+        "equipment_rental": {
+            "n_page": 0,
+            "words_to_find": ["Alquiler", "del", "contador"],
+            "pos_decimal_value": 0,
+        },
     },
     {
         "code": "end",
@@ -120,6 +130,11 @@ companies = [
         "energy_price": {
             "n_page": 1,
             "words_to_find": ["kWh", "Eur/kWh"],
+            "pos_decimal_value": 1,
+        },
+        "equipment_rental": {
+            "n_page": 1,
+            "words_to_find": ["Alquiler", "equipos", "medida"],
             "pos_decimal_value": 1,
         },
    }

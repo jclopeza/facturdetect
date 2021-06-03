@@ -1,7 +1,6 @@
 import pdfplumber
 import pandas as pd
 from decimal import Decimal, InvalidOperation
-from datetime import datetime
 from utilities.support_values import companies
 
 
@@ -58,9 +57,6 @@ def get_lines_with(df, num_page, field, text):
     for i in range(len(text)):
         mask2 = df[field] == text[i]
         filtered_data = df[mask1 & mask2]
-        print("----------")
-        print(filtered_data)
-        print("----------")
         list_n_fila = interseccion(list_n_fila, filtered_data["n_fila"].unique().tolist())
     return list_n_fila
 
@@ -81,6 +77,12 @@ class Invoice():
     total_energy_consumed = None
     energy_price = None
     equipment_rental = None
+    electricity_tax_percentage = Decimal(5.11269632)
+    electricity_tax = None
+    energy_cost = None
+    power_cost = None
+    iva_percentage = Decimal(21)
+    iva_tax = None
 
     def __init__(self, pdf_file_name):
         self.pdf_file_name = pdf_file_name
@@ -152,7 +154,9 @@ class Invoice():
                 (self.df["n_fila"] == lines[0]) &
                 (self.df["is_decimal"] == True)
             ]["text"].to_list()[pos_decimal_value]
-        except IndexError:
+            value = value.replace(",", ".")
+            value = Decimal(value)
+        except (IndexError, InvalidOperation):
             value = None
         return value
 
@@ -169,6 +173,31 @@ class Invoice():
         self.energy_price = self.get_attribute("energy_price")
     def set_equipment_rental(self):
         self.equipment_rental = self.get_attribute("equipment_rental")
+    def set_electricity_tax(self):
+        self.electricity_tax = self.get_attribute("electricity_tax")
+    def set_energy_cost(self):
+        if self.total_energy_consumed is not None and self.energy_price is not None:
+            self.energy_cost = round(self.total_energy_consumed * self.energy_price, 2)
+    def set_power_cost(self):
+        a = self.power_contracted
+        b = self.duration
+        c = self.power_price
+        if a is not None and b is not None and c is not None:
+            self.power_cost = round(a * b * c, 2)
+    def set_electricity_tax(self):
+        a = self.power_cost
+        b = self.energy_cost
+        c = self.electricity_tax_percentage
+        if a is not None and b is not None and c is not None:
+            self.electricity_tax = round((a + b) * c / 100, 2)
+    def set_iva_tax(self):
+        a = self.power_cost
+        b = self.energy_cost
+        c = self.electricity_tax
+        d = self.equipment_rental
+        if a is not None and b is not None and c is not None and d is not None:
+            self.iva_tax = round((a + b + c + d) * self.iva_percentage / 100, 2)
+
 
 
 
@@ -185,6 +214,7 @@ def proccess_invoice_electric(file):
     print(f"Total de filas = {miInvoice.df.shape[0]}")
     print(f"Total de columnas = {miInvoice.df.shape[1]}")
     print(f"ID empresa = {miInvoice.idx_company}")
+    print("---------")
     miInvoice.set_power_contracted()
     print(f"Power contracted = {miInvoice.power_contracted}")
     miInvoice.set_duration()
@@ -197,3 +227,15 @@ def proccess_invoice_electric(file):
     print(f"Energy price = {miInvoice.energy_price}")
     miInvoice.set_equipment_rental()
     print(f"Equipment rental = {miInvoice.equipment_rental}")
+    print("---------")
+    print("         ")
+    print("Campos calculados")
+    print("-----------------")
+    miInvoice.set_energy_cost()
+    print(f"Energy cost = {miInvoice.energy_cost} €")
+    miInvoice.set_power_cost()
+    print(f"Power cost = {miInvoice.power_cost} €")
+    miInvoice.set_electricity_tax()
+    print(f"Electricity tax = {miInvoice.electricity_tax} €")
+    miInvoice.set_iva_tax()
+    print(f"Iva tax = {miInvoice.iva_tax} €")

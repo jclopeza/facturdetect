@@ -36,7 +36,8 @@ class Invoice(models.Model):
     power_price = models.FloatField(default=0.135031)
     power_cost = models.FloatField(default=12.48)
     equipment_rental = models.FloatField(default=0.75)
-    electricity_tax = models.FloatField(default=2.4)
+    electricity_tax_percentage = models.FloatField(default=5.11269632)
+    electricity_tax = models.FloatField(default=5.11)
     iva_tax = models.FloatField(default=10.54)
 
     def __str__(self):
