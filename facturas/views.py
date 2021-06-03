@@ -2,11 +2,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.forms import ModelForm
 from pdf2image import convert_from_bytes
 from datetime import datetime
+from utilities.proccess_pdf_files import proccess_invoice_electric
 
 
 from .forms import UploadFileForm
@@ -83,3 +83,21 @@ def factura_pdf_upload(request):
     else:
         form = UploadFileForm()
     return render(request, 'factura_pdf_upload.html', {'form': form})
+
+
+def factura_pdf_upload_pdfplumber(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            target_dir = 'media'
+            file = request.FILES['file']
+            current_time_str = datetime.now().strftime("%Y%m%d-%H%M%S.%f")
+            file_name = f'{current_time_str}.pdf'
+            with open(f'{target_dir}/{file_name}', 'wb+') as destination:
+                for chunk in file.chunks():
+                    destination.write(chunk)
+            proccess_invoice_electric(f'{target_dir}/{file_name}')
+            print("YA HEMOS GANADO UNA NUEVA BATALLA!!!!!!!!!")
+    else:
+        form = UploadFileForm()
+    return render(request, 'factura_pdf_upload_pdfplumber.html', {'form': form})

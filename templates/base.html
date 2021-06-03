@@ -19,7 +19,13 @@
                     &nbsp;&nbsp;&nbsp;
                 </ul>
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a href="{% url 'factura_pdf_upload' %}">+ Analizar factura PDF</a></li>
+                    <li class="nav-item"><a href="{% url 'factura_pdf_upload' %}">+ Analizar factura PDF (AWS Rekognition)</a></li>
+                </ul>
+                <ul class="navbar-nav mr-auto">
+                    &nbsp;&nbsp;&nbsp;
+                </ul>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a href="{% url 'factura_pdf_upload_pdfplumber' %}">+ Analizar factura PDF (PDF Plumber)</a></li>
                 </ul>
             {% endif %}
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
