@@ -66,7 +66,7 @@ companies = [
         },
         "equipment_rental": {
             "n_page": 1,
-            "words_to_find": ["Alquiler", "equipos", "1,65"],
+            "words_to_find": ["Alquiler", "equipos"],
             "pos_decimal_value": 0,
         },
     },
@@ -80,7 +80,7 @@ companies = [
         },
         "duration": {
             "n_page": 0,
-            "words_to_find": ["del", "mes"],
+            "words_to_find": ["del", "mes", "días)"],
             "pos_decimal_value": 0,
         },
         "power_price": {
@@ -88,14 +88,24 @@ companies = [
             "words_to_find": ["Potencia", "contratados", "día"],
             "pos_decimal_value": 1,
         },
-        "total_energy_consumed": {
+        "total_energy_consumed_p1": {
             "n_page": 0,
-            "words_to_find": ["Energía", "(P1)", "kWh"],
+            "words_to_find": ["Energía", "(P1)", "disfrutados"],
             "pos_decimal_value": 0,
         },
-        "energy_price": {
+        "total_energy_consumed_p2": {
             "n_page": 0,
-            "words_to_find": ["Energía", "(P1)", "kWh"],
+            "words_to_find": ["Energía", "(P2)", "disfrutados"],
+            "pos_decimal_value": 0,
+        },
+        "energy_price_p1": {
+            "n_page": 0,
+            "words_to_find": ["Energía", "(P1)", "disfrutados"],
+            "pos_decimal_value": 1,
+        },
+        "energy_price_p2": {
+            "n_page": 0,
+            "words_to_find": ["Energía", "(P2)", "disfrutados"],
             "pos_decimal_value": 1,
         },
         "equipment_rental": {
@@ -137,5 +147,52 @@ companies = [
             "words_to_find": ["Alquiler", "equipos", "medida"],
             "pos_decimal_value": 1,
         },
-   }
+    },
+    {
+        "code": "rep",
+        "text_to_find": "Repsol",
+        "power_contracted": {
+            "n_page": 0,
+            "words_to_find": ["Término", "potencia"],
+            "pos_decimal_value": 0,
+        },
+        "duration": {
+            "n_page": 0,
+            "words_to_find": ["Término", "potencia"],
+            "pos_decimal_value": 1,
+        },
+        "power_price": {
+            "n_page": 0,
+            # Aquí vamos a utilizar la palabra "año" que aparece en la
+            # busqueda para dar cierta lógica y determinar que el precio
+            # debe dividirse por 365
+            "words_to_find": ["Término", "potencia", "€/kWaño"],
+            "pos_decimal_value": 2,
+        },
+        "total_energy_consumed_p1": {
+            "n_page": 0,
+            "words_to_find": ["Consumo", "(P1)"],
+            "pos_decimal_value": 0,
+        },
+        "total_energy_consumed_p2": {
+            "n_page": 0,
+            "words_to_find": ["Consumo", "(P2)"],
+            "pos_decimal_value": 0,
+        },
+        "energy_price_p1": {
+            "n_page": 0,
+            "words_to_find": ["Consumo", "(P1)"],
+            "pos_decimal_value": 1,
+        },
+        "energy_price_p2": {
+            "n_page": 0,
+            "words_to_find": ["Consumo", "(P2)"],
+            "pos_decimal_value": 1,
+        },
+        "equipment_rental": {
+            "n_page": 0,
+            "words_to_find": ["Equipos", "medida"],
+            "pos_decimal_value": 0,
+        },
+    }
 ]

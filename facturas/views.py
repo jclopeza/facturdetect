@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
@@ -10,7 +11,7 @@ from utilities.proccess_pdf_files import proccess_invoice_electric
 
 
 from .forms import UploadFileForm
-from .models import Factura
+from .models import Factura, Invoice
 from aws.functions import upload_file_to_s3, detect_text
 
 class FacturaListView(LoginRequiredMixin, ListView):
@@ -96,7 +97,43 @@ def factura_pdf_upload_pdfplumber(request):
             with open(f'{target_dir}/{file_name}', 'wb+') as destination:
                 for chunk in file.chunks():
                     destination.write(chunk)
-            proccess_invoice_electric(f'{target_dir}/{file_name}')
+            miInvoice = proccess_invoice_electric(f'{target_dir}/{file_name}')
+            # Ahora debemos insertar los datos calculados en BDD
+            # p1 = Editor(nombre='Addison­Wesley', domicilio='75 Arlington Street',
+            # ... ciudad='Boston', estado='MA', pais='U.S.A.',
+            # ... website='http://www.apress.com/')
+            # p1.save()
+            record = Invoice(
+                author=request.user,
+                pdf_file_name=file_name,
+                n_pages=miInvoice.n_pages,
+                company=miInvoice.company,
+                power_contracted=miInvoice.power_contracted,
+                duration=miInvoice.duration,
+                power_price=miInvoice.power_price,
+                total_energy_consumed=miInvoice.total_energy_consumed,
+                total_energy_consumed_p1=miInvoice.total_energy_consumed_p1,
+                total_energy_consumed_p2=miInvoice.total_energy_consumed_p2,
+                energy_price=miInvoice.energy_price,
+                energy_price_p1=miInvoice.energy_price_p1,
+                energy_price_p2=miInvoice.energy_price_p2,
+                equipment_rental=miInvoice.equipment_rental,
+                electricity_tax_percentage=miInvoice.electricity_tax_percentage,
+                electricity_tax=miInvoice.electricity_tax,
+                energy_cost=miInvoice.energy_cost,
+                energy_cost_p1=miInvoice.energy_cost_p1,
+                energy_cost_p2=miInvoice.energy_cost_p2,
+                power_cost=miInvoice.power_cost,
+                iva_percentage=miInvoice.iva_percentage,
+                iva_tax=miInvoice.iva_tax,
+                tax_base=miInvoice.tax_base,
+                total_invoice=miInvoice.total_invoice
+            )
+            record.save()
+            # Pasamos la factura a objeto json
+            miInvoiceJsonStr = json.dumps(record.__dict__)
+            print(miInvoiceJsonStr)
+
             print("YA HEMOS GANADO UNA NUEVA BATALLA!!!!!!!!!")
     else:
         form = UploadFileForm()
