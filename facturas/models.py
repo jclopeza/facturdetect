@@ -4,6 +4,7 @@ from django.urls import reverse
 
 
 class Factura(models.Model):
+    # New model
     numero_factura = models.CharField(max_length=255)
     periodo_de_facturacion = models.CharField(max_length=255)
     fecha_de_emision = models.CharField(max_length=255)
