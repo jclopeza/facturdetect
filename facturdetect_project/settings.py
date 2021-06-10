@@ -52,10 +52,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 3rd Party
     'crispy_forms',
+    'rest_framework',
     # Local
     'accounts.apps.AccountsConfig',
     'pages.apps.PagesConfig',
     'facturas.apps.FacturasConfig',
+    # 'quickstart.apps.QuickstartConfig',
 ]
 
 MIDDLEWARE = [
@@ -189,3 +191,12 @@ EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

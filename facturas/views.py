@@ -1,5 +1,5 @@
-import json
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy
@@ -130,11 +130,7 @@ def factura_pdf_upload_pdfplumber(request):
                 total_invoice=miInvoice.total_invoice
             )
             record.save()
-            # Pasamos la factura a objeto json
-            miInvoiceJsonStr = json.dumps(record.__dict__)
-            print(miInvoiceJsonStr)
-
-            print("YA HEMOS GANADO UNA NUEVA BATALLA!!!!!!!!!")
+            return HttpResponseRedirect(f'/api/invoices/{record.id}')
     else:
         form = UploadFileForm()
     return render(request, 'factura_pdf_upload_pdfplumber.html', {'form': form})
