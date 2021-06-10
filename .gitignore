@@ -7,3 +7,4 @@ __pycache__
 .vscode
 media/*.jpg
 media/*.pdf
+heroku_set_variables.sh
